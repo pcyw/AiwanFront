@@ -24,7 +24,7 @@
           { title: 'Name', key: 'name', sortable: true },
           {
             title: 'Gender',
-            title: 'gender',
+            key: 'gender',
             render: function (h) {
               let status = this.row.gender;
               if (status==='UNKNOWN'){ return h('span','未知') };
