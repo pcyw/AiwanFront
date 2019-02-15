@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import auth from './module/auth'
 import user from './module/user'
 import app from './module/app'
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     //
   },
   modules: {
+    auth,
     user,
     app
   }

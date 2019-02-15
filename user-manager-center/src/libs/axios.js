@@ -21,7 +21,7 @@ class HttpRequest {
     const config = {
       baseURL: this.baseUrl,
       headers: {
-        //
+        // "Access-Control-Allow-Origin": "*"
       }
     }
     return config

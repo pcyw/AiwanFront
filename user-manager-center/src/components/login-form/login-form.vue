@@ -14,28 +14,12 @@
         </span>
       </Input>
     </FormItem>
-    <FormItem prop="yzm">
-      <Row>
-        <Col span="14">
-          <Input v-model="form.yzm" placeholder="请输入验证码">
-            <span slot="prepend">
-              <Icon :size="14" type="md-barcode"></Icon>
-            </span>
-          </Input>
-        </Col>
-        <Col span="4" offset="1">
-          <img :src="yzmUrl" style="height: 32px"/>
-        </Col>
-      </Row>
-    </FormItem>
     <FormItem>
       <Button @click="handleSubmit" type="primary" long>登录</Button>
     </FormItem>
   </Form>
 </template>
 <script>
-
-import axios from '@/libs/api.request'
 
 export default {
   name: 'LoginForm',
@@ -59,10 +43,9 @@ export default {
   },
   data () {
     return {
-      yzmUrl : axios.baseUrl + "/code/image",
       form: {
-        userName: 'super_admin',
-        password: ''
+        userName: 'user',
+        password: '123456'
       }
     }
   },
