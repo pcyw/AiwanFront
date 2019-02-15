@@ -217,6 +217,39 @@ export default [
       }
     ]
   },
+
+
+  {
+    path: '/user_manager',
+    name: 'user_manager',
+    meta: {
+      icon: 'md-cloud-upload',
+      title: '数据上传'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'user_setting_page',
+        name: 'user_setting_page',
+        meta: {
+          icon: 'ios-document',
+          title: '用户设置'
+        },
+        component: () => import('@/view/user-manager/user-setting.vue')
+      },
+      {
+        path: 'role_setting_page',
+        name: 'role_setting_page',
+        meta: {
+          icon: 'md-clipboard',
+          title: '角色设置'
+        },
+        component: () => import('@/view/user-manager/role-setting.vue')
+      }
+    ]
+  },
+
+
   {
     path: '/update',
     name: 'update',
