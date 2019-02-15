@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+import { getToken } from '@/libs/util'
 
 export const login = ({ userName, password }) => {
   const data = {
@@ -15,10 +16,27 @@ export const login = ({ userName, password }) => {
 export const getUserInfo = (token) => {
   return axios.request({
     url: 'user/api/user/get_user_info',
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*',
+    //   'Authorization': 'Bearer ' + token
+    // },
     params: {
-      access_token: token
+      access_token: getToken()
     },
     method: 'get'
+  })
+}
+
+export const queryUser = (name) => {
+  return axios.request({
+    url: 'user/api/user',
+    method: 'get',
+    params: {
+      access_token: getToken(),
+      pageNum: 1,
+      pageSize: 10,
+      name
+    }
   })
 }
 
