@@ -3,15 +3,19 @@
     <Card>
 
       <tables ref="tables" searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete"/>
-      <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出用户</Button>
+
       <div style="margin: 10px;overflow: hidden">
+        <div style="float: left;">
+          <Button type="primary" style="margin-right: 10px;" @click="addUser">添加用户</Button>
+          <Button type="primary" @click="exportExcel">导出用户</Button>
+        </div>
         <div style="float: right;">
           <Page :total="total" :current="pageNum" :page-size="pageSize" @on-change="changePage"></Page>
         </div>
       </div>
 
       <Modal v-model="userForm.modal" title="编辑用户信息">
-        <Form ref="userForm.validate" :model="userForm.validate" :rules="userForm.ruleValidate" :label-width="80">
+        <Form ref="userForm" :model="userForm.validate" :rules="userForm.ruleValidate" :label-width="80">
           <FormItem label="姓名" prop="name">
             <Input v-model="userForm.validate.name" placeholder="输入姓名" />
           </FormItem>
@@ -40,8 +44,8 @@
         </Form>
         <div slot="footer">
           <Button type="cancel" @click="userCancel()">取消</Button>
-          <Button type="reset" @click="handleReset('userForm.validate')" style="margin-left: 8px">重置</Button>
-          <Button type="primary" @click="handleSubmit('userForm.validate')">提交</Button>
+          <Button type="reset" @click="handleReset('userForm')" style="margin-left: 8px">重置</Button>
+          <Button type="primary" @click="handleSubmit('userForm')">提交</Button>
         </div>
       </Modal>
 
@@ -97,7 +101,7 @@
                   },
                   on: {
                     click: () => {
-                      this.showUserForm(params.row.id);
+                      this.editUser(params.row.id);
                     }
                   }
                 }, '编辑'),
@@ -177,16 +181,22 @@
           this.total = res.data.data.total;
         })
       },
-      showUserForm (id) {
-        this.userForm.modal = true
+      editUser (id) {
         getUserInfo(id).then(res => {
+          this.handleReset('userForm')
           this.userForm.validate.userId = res.data.data.id;
           this.userForm.validate.name = res.data.data.name;
           this.userForm.validate.username = res.data.data.username;
           this.userForm.validate.tel = res.data.data.tel;
           this.userForm.validate.password = res.data.data.password;
           this.userForm.validate.gender = res.data.data.gender;
+          this.userForm.modal = true
         })
+      },
+      addUser () {
+        this.userForm.validate.userId = null;
+        this.handleReset('userForm')
+        this.userForm.modal = true
       },
       userCancel () {
         this.userForm.modal = false;
