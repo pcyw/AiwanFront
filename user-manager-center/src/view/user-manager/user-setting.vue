@@ -139,20 +139,33 @@
           },
           ruleValidate: {
             name: [
-              { required: true, message: '姓名不能为空', trigger: 'blur' }
+              { required: true, message: '姓名不能为空', trigger: 'blur' },
+              { type: 'string', min: 3, message: '最小3个字符字符', trigger: 'blur' },
+              { type: 'string', max: 10, message: '最大10个字符字符', trigger: 'blur' }
             ],
             username: [
               { required: true, message: '账号不能为空', trigger: 'blur' },
+              { type: 'string', min: 5, message: '最小5个字符字符', trigger: 'blur' },
+              { type: 'string', max: 20, message: '最大20个字符字符', trigger: 'blur' }
             ],
             tel: [
               { required: true, message: '手机号码不能为空', trigger: 'change' },
-              // { type: 'tel', message: '手机号码格式错误', trigger: 'blur' }
+              { type: 'number', message: '手机号码格式错误', trigger: 'blur', transform(value){
+                  var reg = /^[1][3,4,5,6,7,8][0-9]{9}$/;
+                  if(!reg.test(value)){
+                    return false;
+                  }else{
+                    return Number(value);
+                  }
+              }}
             ],
             gender: [
               { required: true, message: '请选择性别', trigger: 'change' }
             ],
             password: [
-              { required: true, message: '密码不能为空', trigger: 'change' }
+              { required: true, message: '密码不能为空', trigger: 'change' },
+              { type: 'string', min: 5, message: '最小5个字符字符', trigger: 'blur' },
+              { type: 'string', max: 20, message: '最大20个字符字符', trigger: 'blur' }
             ],
             roles: [
               // { required: true, message: '请设置角色', trigger: 'change' }
