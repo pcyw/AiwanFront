@@ -3,6 +3,11 @@
     <Card>
       <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出用户</Button>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="total" :current="pageNum" :page-size="pageSize" @on-change="changePage"></Page>
+        </div>
+      </div>
     </Card>
   </div>
 </template>
@@ -62,7 +67,10 @@
             ]
           }
         ],
-        tableData: []
+        tableData: [],
+        pageNum: 1,
+        pageSize: 10,
+        total: 0,
       }
     },
     methods: {
@@ -73,11 +81,18 @@
         this.$refs.tables.exportCsv({
           filename: `table-${(new Date()).valueOf()}.csv`
         })
+      },
+      changePage (page) {
+        queryUser(page, this.pageSize, null).then(res => {
+          this.tableData = res.data.data.list
+        })
       }
     },
     mounted () {
-      queryUser().then(res => {
+      queryUser(this.pageNum, this.pageSize, null).then(res => {
         this.tableData = res.data.data.list
+        this.total = res.data.data.total;
+        console.log(this.total);
       })
     }
   }

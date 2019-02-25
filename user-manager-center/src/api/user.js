@@ -27,14 +27,14 @@ export const getUserInfo = (token) => {
   })
 }
 
-export const queryUser = (name) => {
+export const queryUser = (pageNum, pageSize, name) => {
   return axios.request({
     url: 'user/api/user',
     method: 'get',
     params: {
       access_token: getToken(),
-      pageNum: 1,
-      pageSize: 10,
+      pageNum,
+      pageSize,
       name
     }
   })
