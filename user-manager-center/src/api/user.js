@@ -15,7 +15,7 @@ export const login = ({ userName, password }) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: 'user/api/user/get_user_info',
+    url: 'user/api/user/profile',
     // headers: {
     //   'Access-Control-Allow-Origin': '*',
     //   'Authorization': 'Bearer ' + token
@@ -36,6 +36,16 @@ export const queryUser = (pageNum, pageSize, name) => {
       pageNum,
       pageSize,
       name
+    }
+  })
+}
+
+export const removeUser = (id) => {
+  return axios.request({
+    url: 'user/api/user/' + id,
+    method: 'delete',
+    params: {
+      access_token: getToken()
     }
   })
 }
