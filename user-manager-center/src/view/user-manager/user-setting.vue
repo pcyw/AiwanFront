@@ -22,7 +22,7 @@
             <Input v-model="userForm.validate.tel" placeholder="输入手机号码" />
           </FormItem>
           <FormItem label="密码" prop="password">
-            <Input v-model="userForm.validate.password" placeholder="输入密码" />
+            <Input v-model="userForm.validate.password" type="password" placeholder="输入密码" />
           </FormItem>
           <FormItem label="性别" prop="gender">
             <RadioGroup v-model="userForm.validate.gender">
@@ -52,7 +52,7 @@
 <script>
   import Tables from '_c/tables'
   import { getTableData } from '@/api/data'
-  import { queryUser,removeUser } from '@/api/user'
+  import { queryUser,getUserInfo,removeUser,savaUser } from '@/api/user'
   import { formatDate } from '@/libs/date.js'
 
   export default {
@@ -89,6 +89,7 @@
               return h('div', [
                 h('Button', {
                   props: {
+                    type: 'primary',
                     size: 'small'
                   },
                   style: {
@@ -96,7 +97,7 @@
                   },
                   on: {
                     click: () => {
-                      this.userForm.modal = true
+                      this.showUserForm(params.row.id);
                     }
                   }
                 }, '编辑'),
@@ -150,7 +151,7 @@
               { required: true, message: '密码不能为空', trigger: 'change' }
             ],
             roles: [
-              { required: true, message: '请设置角色', trigger: 'change' }
+              // { required: true, message: '请设置角色', trigger: 'change' }
             ]
           }
         },
@@ -176,6 +177,17 @@
           this.total = res.data.data.total;
         })
       },
+      showUserForm (id) {
+        this.userForm.modal = true
+        getUserInfo(id).then(res => {
+          this.userForm.validate.userId = res.data.data.id;
+          this.userForm.validate.name = res.data.data.name;
+          this.userForm.validate.username = res.data.data.username;
+          this.userForm.validate.tel = res.data.data.tel;
+          this.userForm.validate.password = res.data.data.password;
+          this.userForm.validate.gender = res.data.data.gender;
+        })
+      },
       userCancel () {
         this.userForm.modal = false;
         this.$Message.info('已取消');
@@ -183,9 +195,18 @@
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.$Message.success('Success!');
-          } else {
-            this.$Message.error('Fail!');
+            var user = {
+              name:this.userForm.validate.name,
+              username:this.userForm.validate.username,
+              tel:this.userForm.validate.tel,
+              password:this.userForm.validate.password,
+              gender:this.userForm.validate.gender
+            }
+            savaUser(this.userForm.validate.userId,user).then(res => {
+              this.$Message.success('修改成功!');
+              this.userForm.modal = false;
+              this.changePage (this.pageNum)
+            })
           }
         })
       },

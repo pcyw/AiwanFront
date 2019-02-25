@@ -13,13 +13,9 @@ export const login = ({ userName, password }) => {
   })
 }
 
-export const getUserInfo = (token) => {
+export const getUserProfile = (token) => {
   return axios.request({
     url: 'user/api/user/profile',
-    // headers: {
-    //   'Access-Control-Allow-Origin': '*',
-    //   'Authorization': 'Bearer ' + token
-    // },
     params: {
       access_token: getToken()
     },
@@ -40,6 +36,16 @@ export const queryUser = (pageNum, pageSize, name) => {
   })
 }
 
+export const getUserInfo = (id) => {
+  return axios.request({
+    url: 'user/api/user/' + id,
+    method: 'get',
+    params: {
+      access_token: getToken()
+    }
+  })
+}
+
 export const removeUser = (id) => {
   return axios.request({
     url: 'user/api/user/' + id,
@@ -47,6 +53,36 @@ export const removeUser = (id) => {
     params: {
       access_token: getToken()
     }
+  })
+}
+
+export const savaUser = (id, user) => {
+  if(id==null){
+    return createUser(user);
+  }else{
+    return updateUser(id, user);
+  }
+}
+
+export const createUser = (user) => {
+  return axios.request({
+    url: 'user/api/user',
+    method: 'post',
+    params: {
+      access_token: getToken()
+    },
+    data:user
+  })
+}
+
+export const updateUser = (id,user) => {
+  return axios.request({
+    url: 'user/api/user/' + id,
+    method: 'put',
+    params: {
+      access_token: getToken()
+    },
+    data:user
   })
 }
 

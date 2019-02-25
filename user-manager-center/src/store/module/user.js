@@ -1,7 +1,7 @@
 import {
   login,
   logout,
-  getUserInfo,
+  getUserProfile,
   getMessage,
   getContentByMsgId,
   hasRead,
@@ -106,10 +106,10 @@ export default {
       })
     },
     // 获取用户相关信息
-    getUserInfo ({ state, commit }) {
+    getUserProfile ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token).then(res => {
+          getUserProfile(state.token).then(res => {
             const data = res.data.data
             commit('setAvator', data.avator)
             commit('setUserName', data.name)
